@@ -55,11 +55,11 @@
     <style>
         {% for card in cards %}
 
-        #card-{{ card.id }} .card-title:before {
-            content: "{{ card['description'] }}";
+        #card-{{ card.card_id }} .card-title:before {
+            content: "{{ card.description }}";
         }
 
-        body:has(#card-{{ card.id }}:hover) #preview-monitor {
+        body:has(#card-{{ card.card_id }}:hover) #preview-monitor {
             --preview-image: url('{{ url_for('upload_filename', filename=card.preview_name) }}');
         }
 
@@ -88,17 +88,17 @@
     {% if cards %}
     <div id="content">
         {% for card in cards %}
-        <div class="card" id="card-{{ card.id }}">
+        <div class="card" id="card-{{ card.card_id }}">
             <div class="card-header">
                 <div class="card-link-container">
-                    <a class="card-link" data-href="{{ card['link'] }}" href="/goto/{{ card['id'] }}">{{ card['link'] }}</a>
+                    <a class="card-link" data-href="{{ card['link'] }}" href="/goto/{{ card.card_id }}">{{ card['link'] }}</a>
                 </div>
                 <div class="card-buttons">
-                    <a class="edit-button" href="/edit_card/{{ card['id'] }}"><img src="static/icons/edit.png"></a>
-                    <button class="close-button" onclick="delete_card({{ card['id'] }})"><img src="static/icons/close.png"></button>
+                    <a class="edit-button" href="/edit_card/{{ card.card_id }}"><img src="static/icons/edit.png"></a>
+                    <button class="close-button" onclick="delete_card({{ card.card_id }})"><img src="static/icons/close.png"></button>
                 </div>
             </div>
-            <div class="card-title">{{ card['title'] }}</div>
+            <div class="card-title">{{ card.title }}</div>
         </div>
         {% endfor %}
     </div>

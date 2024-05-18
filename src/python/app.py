@@ -9,10 +9,10 @@ from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Response
 
-from init_app import *
-from forms import *
-from user import *
-from parse import *
+from .init_app import *
+from .forms import *
+from .user import *
+from .parse import *
 
 
 @login_manager.user_loader
@@ -31,7 +31,7 @@ async def upload_filename(filename):
         with open(path, 'wb') as f:
             f.write(Img.query.filter_by(filename=filename).first().image)
 
-    response = send_file(path, max_age=3600)
+    response = send_file('../../../' + path, max_age=3600)
 
     os.remove(path)
 
@@ -217,7 +217,7 @@ async def save_data():
 @application.route('/update/<id>', methods=['GET'])
 @login_required
 async def update(id):
-    card = Card.filter_by(card_id=id, owner=current_user).first()
+    card = Card.query.filter_by(card_id=id, owner=current_user.login).first()
     url = card.link
     url_hash = card.url_hash
 
@@ -235,7 +235,7 @@ async def update(id):
 @application.route('/goto/<id>', methods=['GET'])
 @login_required
 async def goto(id):
-    card = Card.filter_by(card_id=id, owner=current_user).first()
+    card = Card.query.filter_by(card_id=id, owner=current_user.login).first()
     url = card.link
 
     actual_hash = get_page_hash(url)
@@ -251,7 +251,7 @@ async def goto(id):
 @application.route('/edit_card/<id>', methods=['GET', 'POST'])
 @login_required
 async def edit_card(id):
-    card = Card.filter_by(card_id=id, owner=current_user).first()
+    card = Card.query.filter_by(card_id=id, owner=current_user.login).first()
     form = EditCardForm()
     print(form.title.data)
 
@@ -288,7 +288,7 @@ async def delete_card(id):
     if int(id) not in cards:
         return Response(status=404)
 
-    db.session.delete(Card.filter_by(card_id=id, owner=current_user).first())
+    db.session.delete(Card.query.filter_by(card_id=id, owner=current_user.login).first())
     cards.remove(int(id))
     current_user.cards = json.dumps(cards)
 

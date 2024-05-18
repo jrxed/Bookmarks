@@ -172,7 +172,7 @@ body:has(.card:hover) #preview-container {
     height: 50px;
     margin: 0;
     text-align: center;
-    font-size: xx-large;
+    font-size: large;
     display: table-cell;
     vertical-align: middle;
 }
