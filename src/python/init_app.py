@@ -6,20 +6,20 @@ from flask_login import LoginManager
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-app = Flask(__name__, template_folder='../templates', static_folder='../static')
-app.app_context().push()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
-# app.config['UPLOAD_FOLDER'] = '../static'
-app.secret_key = 'secretkey qoguh[KMALBJNPJWO;KOQMNWL.LGJIQ;MW.LBNQ;FKMAg'
+application = Flask(__name__, template_folder='../templates', static_folder='../static')
+application.app_context().push()
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
+# application.config['UPLOAD_FOLDER'] = '../static'
+application.secret_key = 'secretkey qoguh[KMALBJNPJWO;KOQMNWL.LGJIQ;MW.LBNQ;FKMAg'
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(application)
 db.create_all()
 
-bcrypt = Bcrypt(app)
+bcrypt = Bcrypt(application)
 
 login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager.init_app(application)
 login_manager.login_view = 'login'
 
 # cache = Cache()
-# cache.init_app(app, config={'CACHE_TYPE': 'simple'})
+# cache.init_app(application, config={'CACHE_TYPE': 'simple'})

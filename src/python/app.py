@@ -20,7 +20,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/uploads/<filename>')
+@application.route('/uploads/<filename>')
 @login_required
 async def upload_filename(filename):
     path = f'temp/{filename}'
@@ -38,7 +38,7 @@ async def upload_filename(filename):
     return response
 
 
-@app.route('/add_card', methods=['POST', 'GET'])
+@application.route('/add_card', methods=['POST', 'GET'])
 @login_required
 async def add_card():
     form = AddCardForm()
@@ -81,7 +81,7 @@ async def add_card():
     return render_template('add_card.html', form=form)
 
 
-@app.route('/')
+@application.route('/')
 @login_required
 async def home():
     print(current_user.profile_pic_name)
@@ -91,7 +91,7 @@ async def home():
                                   in json.loads(current_user.cards)])
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@application.route('/register', methods=['GET', 'POST'])
 async def register():
     form = RegisterForm()
 
@@ -134,7 +134,7 @@ async def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@application.route('/login', methods=['POST', 'GET'])
 async def login():
     if all(key in request.cookies.keys() for key in ('login', 'password_hash')):
         user = User.query.filter_by(login=request.cookies['login']).first()
@@ -164,7 +164,7 @@ async def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/logout', methods=['POST', 'GET'])
+@application.route('/logout', methods=['POST', 'GET'])
 @login_required
 async def logout():
     logout_user()
@@ -176,7 +176,7 @@ async def logout():
     return response
 
 
-@app.route('/save_data', methods=['POST', 'GET'])
+@application.route('/save_data', methods=['POST', 'GET'])
 async def save_data():
     if request.method == 'POST':
         login = request.form['username']
@@ -198,9 +198,9 @@ async def save_data():
                         )
         image = request.files['image']
         filename = secure_filename('img.png')
-        if not os.path.isdir(app.config['UPLOAD_FOLDER']):
-            os.mkdir(app.config['UPLOAD_FOLDER'])
-        image.save(app.config['UPLOAD_FOLDER'] + '/' + filename)
+        if not os.path.isdir(application.config['UPLOAD_FOLDER']):
+            os.mkdir(application.config['UPLOAD_FOLDER'])
+        image.save(application.config['UPLOAD_FOLDER'] + '/' + filename)
         try:
             db.session.add(new_user)
             db.session.commit()
@@ -214,7 +214,7 @@ async def save_data():
             return f'There was an issue'
 
 
-@app.route('/update/<id>', methods=['GET'])
+@application.route('/update/<id>', methods=['GET'])
 @login_required
 async def update(id):
     card = Card.filter_by(card_id=id, owner=current_user).first()
@@ -232,7 +232,7 @@ async def update(id):
     return Response(response=resp_json, status=200)
 
 
-@app.route('/goto/<id>', methods=['GET'])
+@application.route('/goto/<id>', methods=['GET'])
 @login_required
 async def goto(id):
     card = Card.filter_by(card_id=id, owner=current_user).first()
@@ -248,7 +248,7 @@ async def goto(id):
     return redirect('/')
 
 
-@app.route('/edit_card/<id>', methods=['GET', 'POST'])
+@application.route('/edit_card/<id>', methods=['GET', 'POST'])
 @login_required
 async def edit_card(id):
     card = Card.filter_by(card_id=id, owner=current_user).first()
@@ -281,7 +281,7 @@ async def edit_card(id):
     return render_template('edit_card.html', form=form, card_id=id)
 
 
-@app.route('/delete_card/<id>', methods=['DELETE'])
+@application.route('/delete_card/<id>', methods=['DELETE'])
 @login_required
 async def delete_card(id):
     cards = json.loads(current_user.cards)
@@ -297,4 +297,4 @@ async def delete_card(id):
     return Response(status=200, response=json.dumps('success'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
