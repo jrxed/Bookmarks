@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="static/css/main.css">
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="static/js/jquery.js"></script>
+    <script>
+        async function delete_card(id) {
+            console.log('try')
+            $.ajax({
+                url: 'delete_card/' + id,
+                method: 'DELETE',
+                dataType: 'json',
+                success: function (data) {
+                    // console.log('#card-' + id)
+                    // console.log($('#card-' + id))
+                    $('#card-' + id)[0].outerHTML = ''
+                },
+                // error: function (data) {
+                //     console.log('Something went wrong')
+                //     console.log(data)
+                // }
+            })
+        }
+
+        window.onload = async function () {
+            let elements = $('.card')
+            // console.log(elements)
+            for (let i = 0; i < elements.length; ++i) {
+                let el = elements[i]
+                // console.log(el)
+                if (!el.getElementsByTagName('a')[0].getAttribute('data-href').startsWith('http')) {
+                    continue
+                }
+                $.ajax({
+                url: '/update/' + el.id.split('-')[1],
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    if (data['updated']) {
+                        el.classList.add('updated')
+                    }
+                    console.log(data['updated'])
+                    console.log(data['hash'])
+                }
+            })
+            }
+
+       // $('#temp').load(document.URL +  ' #temp');
+       // $('#hid').load(document.URL +  ' #hid');
+        }
+     </script>
+    <style>
+        {% for card in cards %}
+
+        #card-{{ card.card_id }} .card-title:before {
+            content: "{{ card.description }}";
+        }
+
+        body:has(#card-{{ card.card_id }}:hover) #preview-monitor {
+            --preview-image: url('{{ url_for('upload_filename', filename=card.preview_name) }}');
+        }
+
+        {% endfor %}
+    </style>
+</head>
+<body>
+    <header>
+        <div id="header-text">
+            <h1>Your bookmarks</h1>
+            <a href="/add_card">Create new</a>
+        </div>
+        <div id="preview-container">
+            <div id="preview-monitor"></div>
+        </div>
+        <div id="user-section">
+            {% if user.profile_pic_name %}
+            <img src="uploads/{{ user.profile_pic_name }}">
+            {% else %}
+            <img src="static/avatar.jpeg">
+            {% endif %}
+            <div><div>{{ user.username }}</div></div>
+            <div><a href="/logout"></a></div>
+        </div>
+    </header>
+    {% if cards %}
+    <div id="content">
+        {% for card in cards %}
+        <div class="card" id="card-{{ card.card_id }}">
+            <div class="card-header">
+                <div class="card-link-container">
+                    <a class="card-link" data-href="{{ card['link'] }}" href="/goto/{{ card.card_id }}">{{ card['link'] }}</a>
+                </div>
+                <div class="card-buttons">
+                    <a class="edit-button" href="/edit_card/{{ card.card_id }}"><img src="static/icons/edit.png"></a>
+                    <button class="close-button" onclick="delete_card({{ card.card_id }})"><img src="static/icons/close.png"></button>
+                </div>
+            </div>
+            <div class="card-title">{{ card.title }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div id="empty-container">
+        <h1 id="empty-text">Seems like there's no bookmarks (</h1>
+    </div>
+    {% endif %}
+</body>
+</html>

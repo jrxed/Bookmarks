@@ -1,0 +1,259 @@
+body {
+    background: url('../img/background.jpg') fixed no-repeat;
+    background-size: cover;
+    font-family: Hack, sans-serif;
+    margin: 0;
+}
+:root {
+    --preview-image: url('../img/black.png');
+}
+a {
+    color: black;
+}
+#content {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    display: flex;
+    justify-content: left;
+    flex-wrap: wrap;
+    column-gap: 50px;
+    row-gap: 30px;
+}
+.card {
+    border: 2px solid rgba(255, 10, 100, 0.7);
+    width: 300px;
+    transition: .2s;
+    /*overflow: hidden;*/
+}
+.card-header {
+    border-bottom: 2px solid rgba(255, 10, 100, 0.7);
+    display: flex;
+    justify-content: space-between;
+    transition: .2s;
+}
+.card:hover, .card:hover .card-header {
+    border-color: gold;
+}
+.card-buttons {
+    display: flex;
+}
+.card-link-container {
+    max-width: 240px;
+    height: 32px;
+    overflow: hidden;
+    display: inline-block;
+}
+.card-link {
+    display: inline-block;
+    padding: 3px;
+    height: 100%;
+    font-size: 20px;
+    text-decoration: none;
+    background: linear-gradient(90deg, black 0px, black 150px, rgba(0, 0, 0, 0) 240px);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.card-title {
+    justify-content: center;
+    width: 400px;
+    height: 160px;
+    text-align: center;
+    margin: 5px;
+    font-size: xxx-large;
+    overflow: hidden;
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    transition: .5s;
+}
+.close-button, .edit-button {
+    padding: 0;
+    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    text-align: center;
+    color: inherit;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0);
+}
+.card-title::before {
+    content: "some content adhakdakdad and descriptions";
+    font-size: 35px;
+    background: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    height: 160px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: .5s;
+    transform: translatey(-100%);
+    color: black;
+}
+.card-title:hover::before {
+    opacity: 1;
+    transform: none;
+}
+.card-title:hover {
+    color: rgba(0, 0, 0, 0);
+}
+#preview-monitor {
+    width: 100%;
+    height: 100%;
+    top: 10px;
+    background: var(--preview-image);
+    transition: all .5s;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+body:has(.card:hover) #preview-monitor {
+    opacity: 1;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px) brightness(70%);
+    z-index: 999;
+    width: calc(100% - 10px);
+    padding: 5px;
+}
+#preview-container {
+    opacity: 0.1;
+    align-content: center;
+    width: 350px;
+    height: 200px;
+    background: black;
+    transition: all .5s .2s;
+}
+body:has(.card:hover) #preview-container {
+    opacity: 1;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 100px;
+    background: white;
+}
+#user-section {
+    display: flex;
+    gap: 30px;
+    height: 50px;
+    padding: 5px;
+    border: 1px black solid;
+    vertical-align: middle;
+}
+#user-section img {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+}
+#user-section a {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    background: url("../icons/logout.png") center no-repeat;
+    background-size: 30px;
+}
+#user-section > div {
+    /*width: 100%;*/
+    height: 100%;
+}
+#user-section > div > div {
+    height: 50px;
+    margin: 0;
+    text-align: center;
+    font-size: large;
+    display: table-cell;
+    vertical-align: middle;
+}
+.updated, .updated .card-header {
+    border-color: cyan;
+}
+.card-buttons img {
+    width: 20px;
+}
+#header-text {
+    padding-left: 15px;
+}
+#header-text a {
+    color: black;
+    font-size: xx-large;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    position: absolute;
+    width: 300px;
+    height: auto;
+    padding: 20px;
+    left: calc(50% - 175px);
+    border: 5px solid rgba(165, 42, 42, 0.7);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.4);
+}
+#form-title {
+    text-align: center;
+    font-size: 48px;
+}
+#form-text {
+    text-align: center;
+    font-size: 20px;
+}
+input {
+    border: 1px gray solid;
+    border-radius: 10px;
+    width: 100%;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.6);
+    font-size: large;
+    transition: .3s;
+}
+input:hover {
+    background: rgba(255, 255, 255, 0.9);
+}
+input[type=text], [type=email], [type=password] {
+    width: calc(100% - 5px);
+    padding-left: 5px;
+}
+input[type=file]::file-selector-button {
+    width: 50%;
+    height: 100%;
+    font-size: large;
+    border: none;
+    border-right: 1px solid gray;
+    background: rgba(255, 127, 127, 0.2);
+    transition: .3s;
+}
+input[type=file]::file-selector-button:hover {
+    background: rgba(255, 127, 127, 0.5);
+}
+input[type=submit] {
+    background: rgba(248, 186, 185, 0.5);
+}
+input[type=submit]:hover {
+    background: rgba(248, 186, 185);
+}
+#empty-container {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+}
+#empty-text {
+    display: inline-block;
+    width: 100%;
+    font-size: 40px;
+    text-align: center;
+}
+.error-message {
+    color: red;
+}

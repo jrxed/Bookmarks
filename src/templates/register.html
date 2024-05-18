@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <h1 id="form-title">Register</h1>
+    <p id="form-text">Already has an account? <a href="/login">Log in</a></p>
+    <form action="{{ url_for('register') }}" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.login.label() }} {{ form.login }}
+        {% for error in form.login.errors %}
+        <span class="error-message">
+            {{error}}
+        </span>
+        {% endfor %}
+        {{ form.username.label() }} {{ form.username }}
+        {{ form.email.label() }} {{ form.email }}
+        {% for error in form.email.errors %}
+        <span class="error-message">
+            {{error}}
+        </span>
+        {% endfor %}
+        {{ form.password.label() }} {{ form.password }}
+        {{ form.profile_pic.label() }} {{ form.profile_pic }}
+        {{ form.submit }}
+    </form>
+</body>
+</html>

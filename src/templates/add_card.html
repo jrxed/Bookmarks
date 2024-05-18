@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add card</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <h1 id="form-title">Add new bookmark</h1>
+    <form action="{{ url_for('add_card') }}" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.title.label() }} {{ form.title }}
+        {{ form.link.label() }} {{ form.link }}
+        {{ form.description.label() }} {{ form.description }}
+        {{ form.preview.label() }} {{ form.preview }}
+        {{ form.submit }}
+    </form>
+</body>
+</html>
