@@ -9,10 +9,10 @@ from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import Response
 
-from .init_app import *
-from .forms import *
-from .user import *
-from .parse import *
+from init_app import *
+from forms import *
+from user import *
+from parse import *
 
 
 @login_manager.user_loader
