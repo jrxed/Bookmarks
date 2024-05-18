@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <h1 id="form-title">Log in to continue</h1>
+    <p id="form-text">Don't have an account? <a href="/register">Register now</a></p>
+    <form action="{{ url_for('login') }}" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.login.label() }} {{ form.login }}
+        {{ form.password.label() }} {{ form.password }}
+        {{ form.submit }}
+    </form>
+</body>
+</html>
